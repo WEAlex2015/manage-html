@@ -12,7 +12,7 @@ const state = {
     newsCountData: '',
     modifyNewsData: '',
     newsUpdateData: '',
-    // delNewsData: '',
+    delNewsData: '',
 };
 
 const getters = {
@@ -21,7 +21,7 @@ const getters = {
     newsListData:state => state.newsListData,
     newsCountData:state => state.newsCountData,
     newsUpdateData:state => state.newsUpdateData,
-    // delNewsData:state => state.delNewsData,
+    delNewsData:state => state.delNewsData,
 };
 
 const actions = {
@@ -67,16 +67,16 @@ const actions = {
                 commit(CommonConst.NEWS_COUNT_DATA, {resData: []});
             });
     },
-    // delNews({commit}, {reqData}){
-    //     axios.get(CommonConst.DEL_NEWS_URL+'?id='+reqData)
-    //         .then(resData => {
-    //             let commitData = resData;
-    //             commit(CommonConst.DEL_NEWS_DATA, {resData: commitData});
-    //         })
-    //         .catch(e => {
-    //             commit(CommonConst.DEL_NEWS_DATA, {resData: []});
-    //         });
-    // },
+    delNews({commit}, {reqData}){
+        axios.get(CommonConst.DEL_NEWS_URL+'?id='+reqData)
+            .then(resData => {
+                let commitData = resData;
+                commit(CommonConst.DEL_NEWS_DATA, {resData: commitData});
+            })
+            .catch(e => {
+                commit(CommonConst.DEL_NEWS_DATA, {resData: []});
+            });
+    },
     propNewsModifyData({commit}, {reqData}){
         let commitData = reqData;
         commit(CommonConst.MODIFY_NEWS_DATA, {resData: commitData});
@@ -112,9 +112,9 @@ const mutations = {
     [CommonConst.UPDATE_NEWS_DATA](state, {resData}) {
         state.newsUpdateData = resData;
     },
-    // [CommonConst.DEL_NEWS_DATA](state, {resData}) {
-    //     state.delNewsData = resData;
-    // },
+    [CommonConst.DEL_NEWS_DATA](state, {resData}) {
+        state.delNewsData = resData;
+    },
 };
 
 export default {

@@ -109,19 +109,11 @@
             },
             "newsUpdateData": function (val) {
                 let me = this;
-                console.info(val);
-                // alert(val);
                 if(val.data == 1){
-                    me.$Notice.open({
-                        title: '提醒',
-                        desc: '更新新闻动态成功 '
-                    });
+                    me.$Message.success('更新新闻动态成功');
                     me.backTo();
                 }else {
-                    me.$Notice.open({
-                        title: '提醒',
-                        desc: '更新新闻动态失败 '
-                    });
+                    me.$Message.error('更新新闻动态失败');
                 }
             },
         },

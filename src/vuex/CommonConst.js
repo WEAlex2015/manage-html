@@ -21,7 +21,7 @@ export const NEWS_COUNT_DATA = "NEWS_COUNT_DATA";
 export const NEWS_COUNT_DATA_URL = URL + '/news/getNewsCount';
 
 // 删除新闻
-export const DEL_NEWS_DATA = "NEWS_LIST_DATA";
+export const DEL_NEWS_DATA = "DEL_NEWS_DATA";
 export const DEL_NEWS_URL = URL + '/news/delNews';
 
 // modify新闻

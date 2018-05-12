@@ -94,16 +94,10 @@
                 let me = this;
                 // alert(val);
                 if(val.data == 1){
-                    me.$Notice.open({
-                        title: '提醒',
-                        desc: '新增新闻动态成功 '
-                    });
+                    me.$Message.success('新增新闻动态成功');
                     me.backTo();
                 }else {
-                    me.$Notice.open({
-                        title: '提醒',
-                        desc: '新增新闻动态失败 '
-                    });
+                    me.$Message.error('新增新闻动态失败');
                 }
             }
         },
@@ -124,7 +118,7 @@
                 let me = this;
                 me.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('Success!');
+                        // this.$Message.success('Success!');
                         me.getUEContent();
                         me.news = {
                             content: me.content,

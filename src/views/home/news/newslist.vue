@@ -24,7 +24,7 @@
 
         computed: mapGetters({
             newsListData: 'newsListData',
-            // delNewsData: 'delNewsData',
+            delNewsData: 'delNewsData',
             newsCountData: 'newsCountData',
         }),
 
@@ -105,7 +105,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params)
+                                            this.delnews(params)
                                         }
                                     }
                                 }, '删除')
@@ -130,6 +130,7 @@
                 let me = this;
                 me.data = [];
                 if(val && val.data){
+                    console.info(val);
                     let list = val.data;
                     list.map(it => {
                         me.data.push(it);
@@ -142,21 +143,21 @@
                     me.pagecount = val.data;
                 }
             },
-            // "delNewsData": function (val) {
-            //     let me = this;
-            //     if(val.data == 1){
-            //         me.$Notice.open({
-            //             title: '提醒',
-            //             desc: '删除新闻成功 '
-            //         });
-            //         me.$emit("eventFunc", 'back');
-            //     }else {
-            //         me.$Notice.open({
-            //             title: '提醒',
-            //             desc: '删除新闻失败 '
-            //         });
-            //     }
-            // },
+            "delNewsData": function (val) {
+                let me = this;
+                if(val.data == 1){
+                    me.$Notice.open({
+                        title: '提醒',
+                        desc: '删除新闻成功 '
+                    });
+                    me.initTable();
+                }else {
+                    me.$Notice.open({
+                        title: '提醒',
+                        desc: '删除新闻失败 '
+                    });
+                }
+            },
 
         },
 
@@ -173,10 +174,10 @@
                 let me = this;
                 me.$emit("eventFunc", 'modify', param);
             },
-            remove (param) {
+            delnews (param) {
                 let me = this;
                 let id = param.row.id;
-                // me.$store.dispatch('delNews', {reqData: id});
+                me.$store.dispatch('delNews', {reqData: id});
             },
             newsTypeSelect (type) {
                 let me = this;
@@ -185,13 +186,17 @@
             changePage(index) {
                 let me = this;
                 me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': index}});
+            },
+            initTable () {
+                let me = this;
+                me.$store.dispatch('getNewsCount', {reqData: me.newstype});
+                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
             }
         },
 
         created() {
             let me = this;
-            me.$store.dispatch('getNewsCount', {reqData: me.newstype});
-            me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
+            me.initTable();
         }
     }
 </script>
