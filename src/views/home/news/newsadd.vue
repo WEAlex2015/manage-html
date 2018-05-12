@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div class="news-add-box">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
             <FormItem label="类型" prop="type">
                 <Select v-model="formValidate.type" size="large" style="width:200px" class="type-select" @on-select="typeSelect">
@@ -19,6 +19,7 @@
         </div>
 
         <Button type="primary" @click="postNews('formValidate')">发布</Button>
+        <Button type="primary" @click="backTo()">返回</Button>
     </div>
 </template>
 
@@ -97,7 +98,7 @@
                         title: '提醒',
                         desc: '新增新闻动态成功 '
                     });
-                    me.$emit("eventFunc", 'back');
+                    me.backTo();
                 }else {
                     me.$Notice.open({
                         title: '提醒',
@@ -118,8 +119,6 @@
             getUEContent() {
                 let me = this;
                 me.content = me.$refs.ue.getUEContent();
-                // alert(content);
-                console.log(me.content)
             },
             postNews(name) {
                 let me = this;
@@ -139,6 +138,10 @@
                     }
                 })
             },
+            backTo() {
+                let me = this;
+                me.$emit("eventFunc", 'back');
+            }
         },
 
         created() {
@@ -148,16 +151,19 @@
 </script>
 
 <style lang="less">
-    .type-select {
-        position: relative;
-        z-index: 2;
+    .news-add-box {
+        .type-select {
+            position: relative;
+            z-index: 2;
+        }
+        .editor-container {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+        .ivu-form-item-label {
+            width: 120px;
+        }
     }
-    .editor-container {
-        position: relative;
-        z-index: 1;
-        padding-top: 20px;
-    }
-    .ivu-form-item-label {
-        width: 120px;
-    }
+    
 </style>

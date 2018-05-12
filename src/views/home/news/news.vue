@@ -22,7 +22,10 @@
         data () {
             return {
                 nowComp: 'newslist',
-                isShowAddBtn: true
+                isShowAddBtn: true,
+                newsmodifydata: {
+
+                }
             }
         },
 
@@ -40,12 +43,18 @@
                 me.nowComp = 'newsadd'
                 me.isShowAddBtn = false;
             },
-            eventFunc(type, id, args) {
+            eventFunc(type, obj, param) {
                 let me = this;
                 switch (type) {
                     case 'back':
                         me.nowComp = "newslist";
                         me.isShowAddBtn = true;
+                        break;
+                    case 'modify':
+                        me.isShowAddBtn = false;
+                        me.newsmodifydata = obj.row;
+                        me.$store.dispatch('propNewsModifyData', {reqData: me.newsmodifydata});
+                        me.nowComp = "newsmodify";
                         break;
                     default:
                         break;

@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import UE from '../../../components/ue/ue.vue'; //引入编辑器
     import { mapGetters } from 'vuex';
     export default {
 
@@ -67,7 +66,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -85,6 +84,20 @@
                                         }
                                     }
                                 }, '预览'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.modify(params)
+                                        }
+                                    }
+                                }, '编辑'),
                                 h('Button', {
                                     props: {
                                         type: 'error',
@@ -151,8 +164,14 @@
             show (param) {
                 this.$Modal.success({
                     title: '预览',
+                    width: '80%',
+                    closable: true,
                     content: param.row.content
                 })
+            },
+            modify (param) {
+                let me = this;
+                me.$emit("eventFunc", 'modify', param);
             },
             remove (param) {
                 let me = this;
