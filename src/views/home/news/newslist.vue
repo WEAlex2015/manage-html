@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Select v-model="type" size="large" style="width:200px" class="type-select" @on-select="listTypeSelect">
+        <Select v-model="newstype" size="large" style="width:200px" class="type-select" @on-change="newsTypeSelect">
             <Option v-for="item in list" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
     
@@ -9,6 +9,7 @@
         <div style="float: right;">
             <Page :total="pagecount" :current="1" @on-change="changePage"></Page>
         </div>
+
     </div>
     </div>
 </template>
@@ -24,9 +25,8 @@
 
         computed: mapGetters({
             newsListData: 'newsListData',
-            delNewsData: 'delNewsData',
+            // delNewsData: 'delNewsData',
             newsCountData: 'newsCountData',
-            
         }),
 
         data () {
@@ -49,7 +49,7 @@
                         label: '通知公告'
                     },
                 ],
-                type: '',
+                newstype: '',
                 pagecount: 0,
                 columns: [
                     {
@@ -81,7 +81,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.show(params.index)
+                                            this.show(params)
                                         }
                                     }
                                 }, '预览'),
@@ -119,7 +119,6 @@
                 if(val && val.data){
                     let list = val.data;
                     list.map(it => {
-                        console.info(it);
                         me.data.push(it);
                     });
                 }
@@ -149,10 +148,10 @@
         },
 
         methods: {
-            show (index) {
-                this.$Modal.info({
-                    title: 'User Info',
-                    content: `标题:${this.data[index].title}<br>简介：${this.data[index].description}<br>时间:${this.data[index].time}`
+            show (param) {
+                this.$Modal.success({
+                    title: '预览',
+                    content: param.row.content
                 })
             },
             remove (param) {
@@ -160,21 +159,20 @@
                 let id = param.row.id;
                 // me.$store.dispatch('delNews', {reqData: id});
             },
-            listTypeSelect (type) {
+            newsTypeSelect (type) {
                 let me = this;
-                debugger;
-                console.info(me.type);
+                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
             },
             changePage(index) {
                 let me = this;
-                me.$store.dispatch('getNewsList', {reqData: {'type': me.type, 'page': index}});
+                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': index}});
             }
         },
 
         created() {
             let me = this;
-            me.$store.dispatch('getNewsCount', {reqData: me.type});
-            me.$store.dispatch('getNewsList', {reqData: {'type': me.type, 'page': 1}});
+            me.$store.dispatch('getNewsCount', {reqData: me.newstype});
+            me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
         }
     }
 </script>

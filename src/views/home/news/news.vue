@@ -1,8 +1,7 @@
 <template>
 
     <div >
-        新闻动态 
-        <Button type="primary" @click="addnews">新增新闻动态</Button>
+        <Button type="primary" @click="addnews" v-show="isShowAddBtn">新增新闻动态</Button>
         <component :is="nowComp" @eventFunc="eventFunc"></component>
     </div>
 </template>
@@ -22,7 +21,8 @@
 
         data () {
             return {
-                nowComp: 'newslist'
+                nowComp: 'newslist',
+                isShowAddBtn: true
             }
         },
 
@@ -38,12 +38,14 @@
             addnews() {
                 let me = this;
                 me.nowComp = 'newsadd'
+                me.isShowAddBtn = false;
             },
             eventFunc(type, id, args) {
                 let me = this;
                 switch (type) {
                     case 'back':
                         me.nowComp = "newslist";
+                        me.isShowAddBtn = true;
                         break;
                     default:
                         break;

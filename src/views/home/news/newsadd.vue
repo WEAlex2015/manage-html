@@ -1,18 +1,24 @@
 <template>
-
     <div >
-        <Select v-model="type" size="large" style="width:200px" class="type-select" @on-select="typeSelect">
-            <Option v-for="item in list" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <button @click="getUEContent()">获取内容</button>
-        <Input v-model="title" size="large" placeholder="标题"></Input>
-        <Input v-model="desc" size="large" placeholder="简介"></Input>
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+            <FormItem label="类型" prop="type">
+                <Select v-model="formValidate.type" size="large" style="width:200px" class="type-select" @on-select="typeSelect">
+                    <Option v-for="item in list" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+            </FormItem>
+            <FormItem label="标题" prop="title">
+                <Input v-model="formValidate.title" size="large" placeholder="标题"></Input>
+            </FormItem>
+            <FormItem label="简介" prop="title">
+                <Input v-model="formValidate.desc" size="large" placeholder="简介"></Input>
+            </FormItem>
+        </Form>
         <!-- <Input v-model="type" type="textarea" placeholder="富文本"></Input> -->
         <div class="editor-container">
             <UE :id=curEditor :defaultMsg=defaultMsg :config=config ref="ue"></UE>
         </div>
 
-        <Button type="primary" @click="postNews">发布</Button>
+        <Button type="primary" @click="postNews('formValidate')">发布</Button>
     </div>
 </template>
 
@@ -27,7 +33,7 @@
         data () {
             return {
                 curEditor: 'ue',
-                defaultMsg: '这里是UE测试',
+                defaultMsg: '',
                 config: {
                   initialFrameWidth: null,
                   initialFrameHeight: 350
@@ -50,10 +56,24 @@
                         label: '通知公告'
                     },
                 ],
-                type: '',
-                title: '',
+                formValidate: {
+                    type: '',
+                    title: '',
+                    desc: ''
+                },
+                ruleValidate: {
+                    type: [
+                        { required: true, message: '新闻类型不能为空', trigger: 'blur' }
+                    ],
+                    title: [
+                        { required: true, message: '新闻标题不能为空', trigger: 'blur' }
+                    ],
+                    desc: [
+                        { required: true, message: '新闻简介不能为空', trigger: 'blur' }
+                    ],
+                },
                 content: '',
-                desc: '',
+                
                 news: {
                     content: '',
                     title: '',
@@ -101,22 +121,23 @@
                 // alert(content);
                 console.log(me.content)
             },
-            postNews() {
+            postNews(name) {
                 let me = this;
-                me.getUEContent();
-                console.info(me.content);
-                console.info(me.type);
-                console.info(me.title);
-
-                me.news = {
-                    content: me.content,
-                    type: me.type,
-                    title: me.title,
-                    description: me.desc
-                }
-
-                me.$store.dispatch('addNews', {reqData: me.news});
-
+                me.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                        me.getUEContent();
+                        me.news = {
+                            content: me.content,
+                            type: me.formValidate.type,
+                            title: me.formValidate.title,
+                            description: me.formValidate.desc
+                        }
+                        me.$store.dispatch('addNews', {reqData: me.news});
+                    } else {
+                        this.$Message.error('请填写完整信息!');
+                    }
+                })
             },
         },
 
@@ -135,5 +156,8 @@
         position: relative;
         z-index: 1;
         padding-top: 20px;
+    }
+    .ivu-form-item-label {
+        width: 120px;
     }
 </style>
