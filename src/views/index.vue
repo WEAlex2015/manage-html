@@ -40,7 +40,7 @@
 <script>
 
     import news from "./home/news/news.vue";
-    import cases from "./home/cases/cases.vue";
+    import cases from "./home/case/case.vue";
     import file from "./home/file/file.vue";
     import hrs from "./home/hrs/hrs.vue";
     import { mapGetters } from 'vuex';

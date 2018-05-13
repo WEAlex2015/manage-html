@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 /* 首页的获得用户权限 */
 import news from './modules/news'
 import hrs from './modules/hrs'
+import cases from './modules/case'
 
 /* Vue加载状态管理器实例 */
 Vue.use(Vuex);
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     modules: {
         news,
         hrs,
+        cases,
     },
     strict: false
 });

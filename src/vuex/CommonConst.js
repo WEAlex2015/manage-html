@@ -1,7 +1,7 @@
 /*********************************************************************
  *********************************************************************/
 
-export const URL = "http://47.106.177.128:16666";
+export const URL = "http://localhost:16666";
 
 export const TEST_DATA = "TEST_DATA";
 
@@ -52,5 +52,28 @@ export const MODIFY_HRS_DATA = "MODIFY_HRS_DATA";
 
 export const UPDATE_HRS_DATA = "UPDATE_HRS_DATA";
 export const UPDATE_HRS_DATA_URL = URL + '/hr/updateHr';
+
+
+// CASE
+export const ADD_CASE_DATA = "ADD_CASE_DATA";
+export const ADD_CASE_DATA_URL = URL + '/case/insertCase';
+
+
+// CASE list
+export const CASE_LIST_DATA = "CASE_LIST_DATA";
+export const CASE_LIST_DATA_URL = URL + '/case/getCaseList';
+// CASE Count
+export const CASE_COUNT_DATA = "CASE_COUNT_DATA";
+export const CASE_COUNT_DATA_URL = URL + '/case/getCaseCount';
+
+// 删除CASE
+export const DEL_CASE_DATA = "DEL_CASE_DATA";
+export const DEL_CASE_URL = URL + '/case/delCase';
+
+// modifyCASE
+export const MODIFY_CASE_DATA = "MODIFY_CASE_DATA";
+
+export const UPDATE_CASE_DATA = "UPDATE_CASE_DATA";
+export const UPDATE_CASE_DATA_URL = URL + '/case/updateCase';
 
 
