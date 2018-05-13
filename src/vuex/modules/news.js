@@ -7,21 +7,30 @@ import Qs from 'qs'
 
 const state = {
     testData: '',
+
+    // news start
     newsAddData: '',
     newsListData: '',
     newsCountData: '',
     modifyNewsData: '',
     newsUpdateData: '',
     delNewsData: '',
+    // news end
+
+
 };
 
 const getters = {
     testData:state => state.testData,
+
+    // news start
     newsAddData:state => state.newsAddData,
     newsListData:state => state.newsListData,
     newsCountData:state => state.newsCountData,
     newsUpdateData:state => state.newsUpdateData,
     delNewsData:state => state.delNewsData,
+    // news end
+
 };
 
 const actions = {

@@ -160,8 +160,7 @@
 
         created() {
             let me = this;
-            me.modifyNewsData = me.$store.state.homeIndex.modifyNewsData;
-            console.info(me.$store.state.homeIndex.modifyNewsData);
+            me.modifyNewsData = me.$store.state.news.modifyNewsData;
             me.formValidate = me.modifyNewsData;
             me.defaultMsg = me.modifyNewsData.content;
             me.newsmodifydataid = me.modifyNewsData.id;

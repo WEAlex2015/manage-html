@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Select v-model="newstype" size="large" style="width:200px" class="type-select" @on-change="newsTypeSelect">
+        <Select v-model="hrstype" size="large" style="width:200px" class="type-select" @on-change="hrsTypeSelect">
             <Option v-for="item in list" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
     
@@ -9,7 +9,6 @@
         <div style="float: right;">
             <Page :total="pagecount" :current="1" @on-change="changePage"></Page>
         </div>
-
     </div>
     </div>
 </template>
@@ -19,49 +18,52 @@
     export default {
 
         components: {
-            UE
         },
 
         computed: mapGetters({
-            newsListData: 'newsListData',
-            delNewsData: 'delNewsData',
-            newsCountData: 'newsCountData',
+            hrsListData: 'hrsListData',
+            delHrsData: 'delHrsData',
+            hrsCountData: 'hrsCountData',
         }),
 
         data () {
             return {
                 list: [
                     {
-                        value: 'hangye',
-                        label: '行业新闻'
+                        value: 'sheji',
+                        label: '设计类'
                     },
                     {
-                        value: 'qiye',
-                        label: '企业新闻'
+                        value: 'sale',
+                        label: '销售类'
                     },
                     {
-                        value: 'biao',
-                        label: '中标公告'
-                    },
-                    {
-                        value: 'notes',
-                        label: '通知公告'
-                    },
+                        value: 'manage',
+                        label: '管理类'
+                    }
                 ],
-                newstype: '',
+                hrstype: '',
                 pagecount: 0,
                 columns: [
                     {
-                        title: '标题',
-                        key: 'title',
+                        title: '职位',
+                        key: 'name',
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
                     },
                     {
                         title: '简介',
-                        key: 'desc'
+                        key: 'desc1'
                     },
                     {
-                        title: '发布时间',
-                        key: 'time'
+                        title: '详情',
+                        key: 'description'
+                    },
+                    {
+                        title: '人数',
+                        key: 'number'
                     },
                     {
                         title: '操作',
@@ -126,24 +128,23 @@
         },
 
         watch:{
-            "newsListData": function (val) {
+            "hrsListData": function (val) {
                 let me = this;
                 me.data = [];
                 if(val && val.data){
-                    console.info(val);
                     let list = val.data;
                     list.map(it => {
                         me.data.push(it);
                     });
                 }
             },
-            "newsCountData": function (val) {
+            "hrsCountData": function (val) {
                 let me = this;
                 if(val && val.data){
                     me.pagecount = val.data;
                 }
             },
-            "delNewsData": function (val) {
+            "delHrsData": function (val) {
                 let me = this;
                 if(val.data == 1){
                     me.$Notice.open({
@@ -167,7 +168,7 @@
                     title: '预览',
                     width: '80%',
                     closable: true,
-                    content: param.row.content
+                    content: param.row.desc
                 })
             },
             modify (param) {
@@ -177,20 +178,20 @@
             remove (param) {
                 let me = this;
                 let id = param.row.id;
-                me.$store.dispatch('delNews', {reqData: id});
+                me.$store.dispatch('delHrs', {reqData: id});
             },
-            newsTypeSelect (type) {
+            hrsTypeSelect  (type) {
                 let me = this;
-                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
+                me.$store.dispatch('getHrsList', {reqData: {'type': me.hrstype, 'page': 1}});
             },
             changePage(index) {
                 let me = this;
-                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': index}});
+                me.$store.dispatch('getHrsList', {reqData: {'type': me.hrstype, 'page': index}});
             },
             initTable () {
                 let me = this;
-                me.$store.dispatch('getNewsCount', {reqData: me.newstype});
-                me.$store.dispatch('getNewsList', {reqData: {'type': me.newstype, 'page': 1}});
+                me.$store.dispatch('getHrsCount', {reqData: me.hrstype});
+                me.$store.dispatch('getHrsList', {reqData: {'type': me.hrstype, 'page': 1}});
             }
         },
 
@@ -202,7 +203,5 @@
 </script>
 
 <style lang="less">
-    .editor-container {
-        padding-top: 20px;
-    }
+ 
 </style>

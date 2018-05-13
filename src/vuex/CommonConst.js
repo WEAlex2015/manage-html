@@ -31,3 +31,26 @@ export const UPDATE_NEWS_DATA = "UPDATE_NEWS_DATA";
 export const UPDATE_NEWS_DATA_URL = URL + '/news/updateNews';
 
 
+// 添加HRS
+export const ADD_HRS_DATA = "ADD_HRS_DATA";
+export const ADD_HRS_DATA_URL = URL + '/hr/insertHr';
+
+
+// HRS list
+export const HRS_LIST_DATA = "HRS_LIST_DATA";
+export const HRS_LIST_DATA_URL = URL + '/hr/getHrList';
+// HRS Count
+export const HRS_COUNT_DATA = "HRS_COUNT_DATA";
+export const HRS_COUNT_DATA_URL = URL + '/hr/getHrCount';
+
+// 删除HRS
+export const DEL_HRS_DATA = "DEL_HRS_DATA";
+export const DEL_HRS_URL = URL + '/hr/delHr';
+
+// modifyHRS
+export const MODIFY_HRS_DATA = "MODIFY_HRS_DATA";
+
+export const UPDATE_HRS_DATA = "UPDATE_HRS_DATA";
+export const UPDATE_HRS_DATA_URL = URL + '/hr/updateHr';
+
+
