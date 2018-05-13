@@ -180,9 +180,15 @@
 
         methods: {
             show (param) {
-                console.info(param);
+                let arr = param.row.url.split(',');
+                let imgarr = new Array();
+                arr.map(it => {
+                    var src = 'http://47.106.177.128:16668/uploadimage/'+it;
+                    imgarr.push('<img src="'+src+'"</img>');
+                })
                 this.$Modal.success({
                     title: '预览',
+                    width: '80%',
                     closable: true,
                     content: '<p>项目名称: ' + param.row.name + '</p>' 
                             +'<p>设计内容: ' + param.row.content + '</p>'
@@ -192,6 +198,7 @@
                             +'<p>总建筑高度: ' + param.row.height + '</p>'
                             +'<p>项目建成时间: ' + param.row.finishtime + '</p>'
                             +'<p>类型: ' + param.row.type + '</p>'
+                            + imgarr
                 })
             },
             modify (param) {

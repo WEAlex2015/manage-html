@@ -1,5 +1,40 @@
 <template>
     <div class="news-add-box">
+
+        <div class="demo-upload-list" v-for="item in uploadList">
+            <template v-if="item.status === 'finished'">
+                <img :src="item.url">
+                <div class="demo-upload-list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                </div>
+            </template>
+            <template v-else>
+                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+            </template>
+        </div>
+        <Upload
+            ref="upload"
+            :show-upload-list="false"
+            :default-file-list="defaultList"
+            :on-success="handleSuccess"
+            :format="['jpg','jpeg','png']"
+            :max-size="2048"
+            :on-format-error="handleFormatError"
+            :on-exceeded-size="handleMaxSize"
+            :before-upload="handleBeforeUpload"
+            multiple
+            type="drag"
+            action="http://47.106.177.128:16666/file/uploadimage"
+            style="display: inline-block;width:58px;">
+            <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+            </div>
+        </Upload>
+        <Modal title="预览" v-model="visible">
+            <img :src="'http://47.106.177.128:16668/uploadimage/' + imgName" v-if="visible" style="width: 100%">
+        </Modal>
+
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
             <FormItem label="类型" prop="type">
                 <Select v-model="formValidate.type" size="large" style="width:200px" class="type-select" @on-select="typeSelect">
@@ -109,7 +144,13 @@
                     location: '',
                     address: '',
                     scale:''
-                }
+                },
+                defaultList: [
+                    
+                ],
+                imgName: '',
+                visible: false,
+                uploadList: []
             }
         },
 
@@ -131,7 +172,7 @@
         },
 
         mounted(){
-
+            this.uploadList = this.$refs.upload.fileList;
         },
 
         methods: {
@@ -140,6 +181,12 @@
             },
             postCase(name) {
                 let me = this;
+                // 拿到图片做循环 然后插入到case表中, 插入成功后取出url, update file表做关联.
+                var arr=new Array();
+                me.uploadList.map(it => {
+                    arr.push(it.name);
+                });
+                let urls = arr.join(',');
                 me.$refs[name].validate((valid) => {
                     if (valid) {
                         me.case = {
@@ -151,7 +198,8 @@
                             coverage: me.formValidate.coverage,
                             location: me.formValidate.location,
                             address: me.formValidate.address,
-                            scale: me.formValidate.scale
+                            scale: me.formValidate.scale,
+                            url: urls
                         }
                         me.$store.dispatch('addCase', {reqData: me.case});
                     } else {
@@ -162,6 +210,41 @@
             backTo() {
                 let me = this;
                 me.$emit("eventFunc", 'back');
+            },
+            handleView (name) {
+                this.imgName = name;
+                this.visible = true;
+            },
+            handleRemove (file) {
+                const fileList = this.$refs.upload.fileList;
+                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+            },
+            handleSuccess (res, file) {
+                let me = this;
+                file.url = 'http://47.106.177.128:16668/uploadimage/'+res;
+                file.name = res;
+                me.imgName = res;
+            },
+            handleFormatError (file) {
+                this.$Notice.warning({
+                    title: '文件格式错误',
+                    desc: '文件 ' + file.name + ' 格式错误, 请选择 jpg or png.'
+                });
+            },
+            handleMaxSize (file) {
+                this.$Notice.warning({
+                    title: '超过文件大小限制',
+                    desc: '文件  ' + file.name + ' 太大, 请不要超过 2M.'
+                });
+            },
+            handleBeforeUpload () {
+                const check = this.uploadList.length < 5;
+                if (!check) {
+                    this.$Notice.warning({
+                        title: '一次上传最多不超过5张.'
+                    });
+                }
+                return check;
             }
         },
 
@@ -172,19 +255,41 @@
 </script>
 
 <style lang="less">
-    .news-add-box {
-        .type-select {
-            position: relative;
-            z-index: 2;
-        }
-        .editor-container {
-            position: relative;
-            z-index: 1;
-            padding: 20px;
-        }
-        .ivu-form-item-label {
-            width: 120px;
-        }
+    .demo-upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
     }
     
 </style>
