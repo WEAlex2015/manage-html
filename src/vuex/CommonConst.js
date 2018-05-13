@@ -77,3 +77,14 @@ export const UPDATE_CASE_DATA = "UPDATE_CASE_DATA";
 export const UPDATE_CASE_DATA_URL = URL + '/case/updateCase';
 
 
+// file
+export const FILE_LIST_DATA = "FILE_LIST_DATA";
+export const FILE_LIST_DATA_URL = URL + '/file/getNotImageFileList';
+
+export const DEL_FILE_DATA = "DEL_FILE_DATA";
+export const DEL_FILE_DATA_URL = URL + '/file/delFile';
+
+export const FILE_COUNT_DATA = "FILE_COUNT_DATA";
+export const FILE_COUNT_DATA_URL = URL + '/file/getFileCount';
+
+

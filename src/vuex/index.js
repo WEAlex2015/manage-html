@@ -8,6 +8,7 @@ import Vuex from 'vuex'
 import news from './modules/news'
 import hrs from './modules/hrs'
 import cases from './modules/case'
+import file from './modules/file'
 
 /* Vue加载状态管理器实例 */
 Vue.use(Vuex);
@@ -17,6 +18,7 @@ export default new Vuex.Store({
         news,
         hrs,
         cases,
+        file,
     },
     strict: false
 });

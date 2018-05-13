@@ -6,10 +6,10 @@
     
         <Table border :columns="columns" :data="data"></Table>
         <div style="margin: 10px;overflow: hidden">
-        <div style="float: right;">
-            <Page :total="pagecount" :current="1" @on-change="changePage"></Page>
+            <div style="float: right;">
+                <Page :total="pagecount" :current="1" @on-change="changePage"></Page>
+            </div>
         </div>
-    </div>
     </div>
 </template>
 
