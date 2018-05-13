@@ -3,7 +3,7 @@
     <div >
         <Upload
             multiple
-            action="http://localhost:16666/test/postFile">
+            action="http://47.106.177.128:16666/file/uploadfile">
             <Button type="ghost" icon="ios-cloud-upload-outline">文档上传</Button>
         </Upload>
 
@@ -20,10 +20,6 @@
                     {
                         title: '标题',
                         key: 'title',
-                    },
-                    {
-                        title: '简介',
-                        key: 'desc'
                     },
                     {
                         title: '发布时间',
@@ -86,9 +82,15 @@
                 let id = param.row.id;
                 // me.$store.dispatch('delNews', {reqData: id});
             },
+            initTable () {
+                let me = this;
+                me.$store.dispatch('getFileCount');
+                me.$store.dispatch('getFileList', {reqData: {'page': 1}});
+            }
         },
         created() {
             let me = this;
+            me.initTable();
         }
     }
 </script>

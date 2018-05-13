@@ -16,8 +16,6 @@ const state = {
     newsUpdateData: '',
     delNewsData: '',
     // news end
-
-
 };
 
 const getters = {
