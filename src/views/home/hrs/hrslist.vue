@@ -164,11 +164,16 @@
 
         methods: {
             show (param) {
+                console.info(param);
                 this.$Modal.success({
                     title: '预览',
-                    width: '80%',
                     closable: true,
-                    content: param.row.desc
+                    content: '<p>职位: ' + param.row.name + '</p>' 
+                            +'<p>简介: ' + param.row.description + '</p>'
+                            +'<p>地址: ' + param.row.address + '</p>'
+                            +'<p>招聘人数: ' + param.row.number + '</p>'
+                            +'<p>工作职责: ' + param.row.desc1 + '</p>'
+                            +'<p>职责要求: ' + param.row.desc2 + '</p>'
                 })
             },
             modify (param) {
