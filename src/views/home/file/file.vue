@@ -33,12 +33,16 @@
             return {
                 columns: [
                     {
-                        title: '标题',
+                        title: '文档名称',
                         key: 'name',
                     },
                     {
                         title: '路径',
                         key: 'url'
+                    },
+                    {
+                        title: '文档类型',
+                        key: 'type'
                     },
                     {
                         title: '操作',

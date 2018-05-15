@@ -44,7 +44,7 @@
                 <Input v-model="formValidate.title" size="large" placeholder="标题"></Input>
             </FormItem>
             <FormItem label="简介" prop="title">
-                <Input v-model="formValidate.desc" size="large" placeholder="简介"></Input>
+                <Input v-model="formValidate.desc" type="textarea" :rows="4" placeholder="简介"></Input>
             </FormItem>
         </Form>
         <!-- <Input v-model="type" type="textarea" placeholder="富文本"></Input> -->
